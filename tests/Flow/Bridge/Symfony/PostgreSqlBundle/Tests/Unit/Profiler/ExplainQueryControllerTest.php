@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Flow\Bridge\Symfony\PostgreSqlBundle\Tests\Unit\Profiler;
 
+use Flow\Bridge\Symfony\PostgreSqlBundle\Profiler\ExplainQueryController;
 use Flow\Bridge\Symfony\PostgreSqlBundle\Profiler\FlowPostgreSqlDataCollector;
-use Flow\Bridge\Symfony\PostgreSqlBundle\Profiler\ProfilerController;
 use Flow\Bridge\Symfony\PostgreSqlBundle\Profiler\QueryRecorder;
 use Flow\Bridge\Symfony\PostgreSqlBundle\Profiler\RecordedQuery;
 use Flow\Bridge\Symfony\PostgreSqlBundle\Tests\Double\FakeClient;
@@ -18,8 +18,8 @@ use Symfony\Component\HttpKernel\Profiler\Profile;
 use Symfony\Component\HttpKernel\Profiler\Profiler;
 use Twig\Environment;
 
-#[CoversClass(ProfilerController::class)]
-final class ProfilerControllerTest extends TestCase
+#[CoversClass(ExplainQueryController::class)]
+final class ExplainQueryControllerTest extends TestCase
 {
     public function test_renders_the_plan_for_an_explainable_query(): void
     {
@@ -132,11 +132,14 @@ final class ProfilerControllerTest extends TestCase
         return $profiler;
     }
 
-    private function controller(Profiler $profiler, ServiceLocator $clients, string $renders = ''): ProfilerController
-    {
+    private function controller(
+        Profiler $profiler,
+        ServiceLocator $clients,
+        string $renders = '',
+    ): ExplainQueryController {
         $twig = $this->createStub(Environment::class);
         $twig->method('render')->willReturn($renders);
 
-        return new ProfilerController($twig, $clients, $profiler);
+        return new ExplainQueryController($twig, $clients, $profiler);
     }
 }

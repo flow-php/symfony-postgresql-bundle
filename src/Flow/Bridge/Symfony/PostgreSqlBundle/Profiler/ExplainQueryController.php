@@ -17,14 +17,11 @@ use function array_key_exists;
 use function array_values;
 
 /**
- * Renders the "Explain query" fragment for the Flow PostgreSQL profiler panel. Reached via the
- * standard `_profiler` route with `page=explain` and a controller sub-request (no custom route),
- * mirroring how the Doctrine bundle exposes EXPLAIN. Dev-only: this service is registered solely
- * when the profiler panel is enabled.
+ * Reached via `_profiler?page=explain` sub-request, no route.
  *
  * @internal
  */
-final readonly class ProfilerController
+final readonly class ExplainQueryController
 {
     public function __construct(
         private Environment $twig,
